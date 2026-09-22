@@ -1,0 +1,2 @@
+<?php
+function auditar(PDO $pdo,string $acao,string $entidade='sistema',?int $entidadeId=null,array $detalhes=[]): void {try{$uid=$_SESSION['usuario_id']??null;$nome=$_SESSION['usuario_nome']??'Sistema';$ip=$_SERVER['REMOTE_ADDR']??null;$rota=$_SERVER['REQUEST_URI']??null;$s=$pdo->prepare('INSERT INTO auditoria(usuario_id,usuario_nome,acao,entidade,entidade_id,detalhes,ip,rota,criado_em) VALUES(?,?,?,?,?,?,?,?,NOW())');$s->execute([$uid,$nome,$acao,$entidade,$entidadeId,json_encode($detalhes,JSON_UNESCAPED_UNICODE),$ip,$rota]);}catch(Throwable $e){}}
