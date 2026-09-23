@@ -20,7 +20,7 @@ if (isset($_POST['excluir_id'])) {
 if ($_SERVER['REQUEST_METHOD']==='POST') {
     $nome=trim($_POST['nome']??'');
     $esp=trim($_POST['especialidade']??'');
-    $valid=['Psicoterapia','Fonoterapia infantil','Nutrição','Nutrição Bioimpedanciometria','Clínica geral'];
+    $valid=['Psicoterapia','Fonoterapia infantil','Nutrição','Nutrição – Bioimpedanciometria','Clínica geral'];
     if(mb_strlen($nome)<3 || !in_array($esp,$valid,true)) {
         flash('error','Preencha nome e especialidade corretamente.');
     } else {
@@ -44,7 +44,7 @@ function conteudoProfissionais(array $prof): void { ?>
       <select name="especialidade" required>
         <option value="">Selecione</option>
         <option>Psicoterapia</option><option>Fonoterapia infantil</option><option>Nutrição</option>
-        <option>Nutrição Bioimpedanciometria</option><option>Clínica geral</option>
+        <option>Nutrição – Bioimpedanciometria</option><option>Clínica geral</option>
       </select>
       <button class="btn" type="submit">Adicionar profissional</button>
     </form>
@@ -52,7 +52,7 @@ function conteudoProfissionais(array $prof): void { ?>
     <?php foreach($prof as $p): ?>
       <tr>
         <td><?=htmlspecialchars($p['nome'])?></td><td><?=htmlspecialchars($p['especialidade'])?></td><td><?=$p['ativo']?'Ativo':'Inativo'?></td>
-        <td><form method="post" data-confirm="Remover este profissional definitivamente? Consultas, horários, disponibilidades e eventual acesso vinculado também serão apagados. Esta ação não pode ser desfeita." data-confirm-ok="Remover definitivamente"><input type="hidden" name="excluir_id" value="<?=$p['id']?>"><button class="btn btn-danger btn-small" type="submit">Excluir profissional</button></form></td>
+        <td><form method="post" data-confirm="Remover este profissional definitivamente? Consultas, horários, disponibilidades e eventual acesso vinculado também serão apagados. Esta ação não pode ser desfeita." data-confirm-ok="Remover definitivamente"><input type="hidden" name="excluir_id" value="<?=$p['id']?>"><button class="btn btn-danger btn-small" type="submit">Remover profissional</button></form></td>
       </tr>
     <?php endforeach; ?>
     </tbody></table></div>

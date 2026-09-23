@@ -58,7 +58,7 @@ Contato da clínica: (11) 3683-3049
 - O envio usa `mail()` do PHP. Em `AURA_DEV`, o link de teste fica em `storage/reset-mails.log`.
 
 ## V15 — exclusão definitiva, horários e validações
-Para bancos já existentes, execute também `migracao_v15.sql`. A aplicação agora faz exclusão definitiva de usuários/profissionais pelas telas autorizadas, permite que profissionais com a permissão `horarios_gerir` adicionem/removam suas disponibilidades, valida CPF pelos dígitos verificadores e limita telefones a 10/11 dígitos. O serviço “Exame impedanciometria” foi renomeado para “Nutrição Bioimpedanciometria”.
+Para bancos já existentes, execute também `migracao_v15.sql`. A aplicação agora faz exclusão definitiva de usuários/profissionais pelas telas autorizadas, permite que profissionais com a permissão `horarios_gerir` adicionem/removam suas disponibilidades, valida CPF pelos dígitos verificadores e limita telefones a 10/11 dígitos. O serviço “Exame impedanciometria” foi renomeado para “Nutrição – Bioimpedanciometria”.
 
 
 ## V16 — correção de entrega
@@ -70,4 +70,14 @@ Esta versão torna as alterações da V15 visíveis e operacionais nas telas usa
 - Profissionais com a permissão `horarios_gerir` podem criar/remover os próprios horários semanais e disponibilidades específicas por data.
 - Em erros, o sistema restaura o formulário correto, seus valores não sensíveis e a posição em que o usuário estava.
 - CPF continua limitado a 11 dígitos reais e validado pelos dígitos verificadores; telefones aceitam somente 10 dígitos (fixo) ou 11 (celular).
-- O serviço foi padronizado para **Nutrição Bioimpedanciometria**. Em banco existente, execute `migracao_v17.sql`.
+- O serviço foi padronizado para **Nutrição – Bioimpedanciometria**. Em banco existente, execute `migracao_v17.sql`.
+
+## V18 — exclusão completa, validações e acesso mobile
+- A aba **Profissionais** possui confirmação antes de remover um profissional.
+- A permissão `horarios_gerir` é validada novamente no backend a cada requisição autenticada; profissionais autorizados podem criar e remover somente os próprios horários.
+- Exclusões de usuários/profissionais usam transação e removem consultas/lembretes vinculados, horários, disponibilidades, permissões, redefinições de senha e auditorias relacionadas.
+- CPF é digitado somente com números, limitado a 11 dígitos e validado pelos dígitos verificadores; telefones continuam aceitando 10 dígitos (fixo) ou 11 (celular), com máscara apenas visual.
+- O serviço foi padronizado para **Nutrição – Bioimpedanciometria**.
+- No celular, os painéis internos agora exibem um botão **Menu** que abre todas as opções disponíveis ao perfil, sem esconder atalhos em rolagem horizontal.
+- POSTs são enviados de forma assíncrona no navegador: erros e avisos aparecem em popup sem recarregar a tela nem apagar os campos; sucessos atualizam a tela normalmente.
+- Para banco já existente, execute `migracao_v18.sql` após atualizar os arquivos.

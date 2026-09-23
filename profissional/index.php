@@ -3,6 +3,13 @@ require_once '../conexao.php';require_once '../includes/rbac.php';require_once '
 exigirCargo(['profissional']);
 $pid=(int)($_SESSION['profissional_id']??0);
 if(!$pid){flash('error','Seu usuário ainda não está vinculado a um profissional.');header('Location: ../logout.php');exit;}
+// Recarrega apenas as permissões deste profissional no servidor. Assim, a permissão
+// "Gerir horários" é conferida no backend em cada acesso a esta área, sem alterar
+// a lógica global de login/painel. Se houver uma falha temporária, mantém a sessão atual.
+try {
+  $uid=(int)($_SESSION['usuario_id']??0);
+  if($uid>0) $_SESSION['permissoes']=carregarPermissoes($pdo,$uid);
+} catch(Throwable $e) {}
 $podeHorarios=pode('horarios_gerir');
 $dias=['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
 

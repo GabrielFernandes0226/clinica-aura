@@ -3,11 +3,11 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   // Máscaras e limites brasileiros. O servidor repete as validações por segurança.
   const digits=v=>(v||'').replace(/\D/g,'');
-  const maskCpf=v=>{const n=digits(v).slice(0,11);return n.replace(/^(\d{3})(\d)/,'$1.$2').replace(/^(\d{3})\.(\d{3})(\d)/,'$1.$2.$3').replace(/(\d{3})(\d{1,2})$/,'$1-$2')};
+  const maskCpf=v=>digits(v).slice(0,11);
   const maskPhone=v=>{const n=digits(v).slice(0,11);if(n.length<=2)return n?`(${n}`:'';if(n.length<=10)return `(${n.slice(0,2)}) ${n.slice(2,6)}${n.length>6?'-'+n.slice(6):''}`;return `(${n.slice(0,2)}) ${n.slice(2,7)}-${n.slice(7)}`};
   const cpfIsValid=value=>{const n=digits(value);if(n.length!==11||/^(\d)\1{10}$/.test(n))return false;for(let t=9;t<11;t++){let sum=0;for(let i=0;i<t;i++)sum+=Number(n[i])*((t+1)-i);let d=(10*sum)%11;if(d===10)d=0;if(Number(n[t])!==d)return false;}return true;};
   const phoneIsValid=value=>{const n=digits(value);if(n.length===10)return /^[1-9]{2}[2-5]\d{7}$/.test(n);if(n.length===11)return /^[1-9]{2}9\d{8}$/.test(n);return false;};
-  document.querySelectorAll('[data-cpf]').forEach(input=>{const apply=()=>{input.value=maskCpf(input.value);const n=digits(input.value);input.setCustomValidity(n.length===0||cpfIsValid(n)?'':'Informe um CPF brasileiro válido com exatamente 11 dígitos.');};input.value=maskCpf(input.value);input.addEventListener('input',apply);input.addEventListener('blur',apply);apply();});
+  document.querySelectorAll('[data-cpf]').forEach(input=>{const apply=()=>{input.value=maskCpf(input.value);const n=digits(input.value);input.setCustomValidity(n.length===0||cpfIsValid(n)?'':'Informe exatamente 11 números de um CPF brasileiro válido.');};input.value=maskCpf(input.value);input.addEventListener('input',apply);input.addEventListener('blur',apply);apply();});
   document.querySelectorAll('[data-phone]').forEach(input=>{const apply=()=>{input.value=maskPhone(input.value);const n=digits(input.value);input.setCustomValidity(n.length===0||phoneIsValid(n)?'':'Use 10 dígitos para telefone fixo (DDD + número) ou 11 para celular (DDD + 9 + número).');};input.value=maskPhone(input.value);input.addEventListener('input',apply);input.addEventListener('blur',apply);apply();});
 
   // Após erro de formulário, volta exatamente ao formulário/posição e repõe apenas campos não sensíveis.

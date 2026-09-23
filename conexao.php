@@ -1,10 +1,10 @@
 <?php
 define('AURA_DEV', true); // Em produção, altere para false após configurar o envio de e-mail.
 
-$host = 'sql111.infinityfree.com';
-$db = 'if0_42983618_clinicaaura';
-$user = 'if0_42983618';
-$pass = 'tbrh0vI4Cx7';
+$host = 'localhost';
+$db = 'clinica';
+$user = 'root';
+$pass = '';
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8mb4", $user, $pass, [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
